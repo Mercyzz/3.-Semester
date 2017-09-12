@@ -106,8 +106,8 @@ alternate [x] = [x]
 alternate (x:y:xs) = x : -y : (alternate xs)
 
 --Exercise 5
-replicateAll :: Int -> [a] -> [a]
-replicateAll n (x:xs) |n <= 0 = [] | otherwise = (replicateAll n x) ++ replicateAll n xs
+--replicateAll :: Int -> [a] -> [a]
+--replicateAll n (x:xs) |n <= 0 = [] | otherwise = (replicateAll n x) ++ replicateAll n xs
 --replicateAll n (x:xs) | _ [] = [] | n == 0  || n == 1 = x:xs | n < 0 = error "Error" | otherwise = n : replicateAll (n-1) x:xs
 
 --Exercise 6
@@ -117,3 +117,17 @@ cumulativeSum [x] = [x]
 cumulativeSum (x:y:ys) = x: (cumulativeSum $ (x+y) : ys)
 
 --(cumsum $ (x+y) : ys)
+
+--INSERTON SORT
+insert :: Ord a => a-> [a] ->[a]
+insert x [] = [x]
+insert x (y:ys)| x<= y = x:y:ys | otherwise = y:insert x ys
+
+isort :: Ord a => [a]->[a]
+isort [] = []
+isort (x:xs) = insert x (isort xs)
+
+cartesian xs ys = [(x,y)|x<-xs,y<-ys]
+--result: [(1,'a'),(1,'b'),(1,'c'),(2,'a'),(2,'b'),(2,'c'),(3,'a'),(3,'b'),(3,'c')]
+cartesian' xs ys = [(x,y)|y<-ys,x<-xs]
+--result: [(1,'a'),(2,'a'),(3,'a'),(1,'b'),(2,'b'),(3,'b'),(1,'c'),(2,'c'),(3,'c')]
