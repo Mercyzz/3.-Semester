@@ -1,0 +1,113 @@
+Computer Architecture exercise sheet 1
+
+1. 
+determine the effective CPI, MIPS rate and execution time: 
+CPI = ((41*1+28*2+25*2+6*2)*10^3)/((41+28+25+6)*10^3)  = 1.59
+MIPS rate = (40*10^6)/(1.59*10^6) = 25
+execution time = (100*10^3*1.59)/(40*10^6) = 3.975 milliseconds 
+
+2.
+represent following decimal in both binary sign/magnitude and two's complement (+64, -28)
+8'bits:
+Binary Sign:
+
+ +64:
+0 1 0 0 0 0 0 0  < 64 binary sign
+
+ -28 :
+positive 28:
+
+28/2 = 14 reminder 0
+14/2 = 7 reminder 0
+7/2 = 3 reminder 1
+3/2 = 1 reminder 1
+1/2 = 0 reminder 1
+
+0 0 0 1 1 1 0 0
+
+
+1 0 0 1 1 1 0 0  <- -28 binary sign  (første bit 1 (negativ værdi))
+
+
+Two's Complement:
+
+ +64
+0 1 0 0 0 0 0 0 <- 64 Two's complement
+
+ -28
+28 i 8 bit:
+0 0 0 1 1 1 0 0 
+1 1 1 0 0 0 1 1 inverse 
+0 0 0 0 0 0 0 1 add 1
+1 1 1 0 0 1 0 0 < - 28 two's complement
+
+3. 
+represent following two's complement values in decimal:
+  1 1 0 0 1 1 0
+because this starts with a leftmost 1 its a negative number
+flipping and adding 1:
+
+  0 0 1 1 0 0 1
+  0 0 0 0 0 0 1 +1
+= 0 0 1 1 0 1 0
+this is 26, so the original value was -26
+
+
+forket: 
+  1 0 1 1 1 0 1
+because this starts with a leftmost 1 its a negative number
+flipping and adding 1:
+  0 1 0 0 0 1 0
+  0 0 0 0 0 0 1 +1
+= 0 1 0 0 0 1 1 
+this is 35, so the original value was -35
+
+4.
+The two's complement of the original number
+
+5.
+Outpu: zn-1 0 0 1 0 1 0 1 1 
+        v   0 1 0 0 0 0 1 0
+
+6.
+a) 6+12
+6+12  0 0 0 0 0 1 1 0
+    + 0 0 0 0 1 1 0 0 < 0/1 at start, no overflow possible
+    = 0 0 0 1 0 0 1 0 <- resultat (18)
+
+b) -6 + 12 
+-6 two's complement:
+positive 6:
+      0 0 0 0 0 1 1 0
+     
+      1 1 1 1 1 0 0 1 inverse
+      0 0 0 0 0 0 0 1   +1    
+      1 1 1 1 1 0 1 0	
+  
+      1 1 1 1 1 0 1 0 (-6)
+    + 0 0 0 0 1 1 0 0 (12)
+    = 0 0 0 0 0 1 1 0 <- resultat (6)
+    
+c) 6 - 12
+-12 two's complement:
+     0 0 0 0 1 1 0 0
+     1 1 1 1 0 0 1 1
+     0 0 0 0 0 0 0 1 +1
+     1 1 1 1 0 1 0 0
+    
+     0 0 0 0 0 1 1 0 (6)
+   + 1 1 1 1 0 1 0 0 (-12)
+   = 1 1 1 1 1 0 1 0 <- resultat(-6)
+	 
+d) -6-12
+    1 1 1 1 1 0 1 0 ( -6 fra opg b)
+  + 1 1 1 1 0 1 0 0 ( -12 fra opg c)
+  = 1 1 1 0 1 1 1 0 <- resultat (-18)
+  
+7.If the exclusive-OR of the carry bits into and out of the leftmost column is 1,
+then there is an overflow condition. Otherwise, there is not.
+
+Svar: 
+Yes,because on different bits ,xor gate gives result as 1 so if carry out and
+carr in are different that it can be checked by their xoring .If result=0 then no
+overflow otherwise there is overflow 

@@ -1,0 +1,176 @@
+.section .data
+.section .text
+.globl _start
+
+_start:
+
+
+  /*
+   * TASK 1
+   */
+
+  mov $1234, %rax
+  call print_rax  # expected result: 1234
+
+  /*
+   * TASK 2
+   *
+   * Add the number to a sum, and decrement until it reaches 0.
+   */
+
+  mov $10, %rax
+  mov $0, %rbx
+
+  add_loop:
+    add %rax, %rbx
+    sub $1, %rax
+    cmp $0, %rax
+    jne add_loop
+
+  mov %rbx, %rax
+  call print_rax   # expected result: 55
+
+  /*
+   * TASK 3
+   *
+   * As with before, but here we multiply the number with the product,
+   * and then decrement until it reaches 0.
+   */
+
+  mov $1, %rax
+  mov $10, %rbx
+
+  mul_loop:
+    mul %rbx      # %rax = %rax * %rbx
+    sub $1, %rbx
+    cmp $0, %rbx
+    jne mul_loop
+
+  call print_rax   # expected result: 10! = 3628800
+
+  /*
+   * TASK 4
+   *
+   * This task could be solved by adding two sums (3+6+9.. and 5+10+15..).
+   * I use instead the method of checking against the remainder (modulo).
+   * For reference, in python this would be:
+   *
+   *  sum = 0
+   *  for i in range(100, 0, -1):
+   *    if i % 3 == 0 or i % 5 == 0:
+   *      sum += i
+   */
+
+  mov $100, %r8  # initial input
+  mov $0, %r9    # sum
+  
+  mov $3, %r10   # divisors (div cannot take an immediate argument)
+  mov $5, %r11   #
+
+  complex_sum_loop:
+
+    # Check if r8 % 3 == 0
+    mov %r8, %rax
+    mov $0, %rdx
+    div %r10
+    cmp $0, %rdx  # remainder of division is in %rdx
+    je add_number
+
+    # If not, check if r8 % 5 == 0
+    mov %r8, %rax
+    mov $0, %rdx
+    div %r11
+    cmp $0, %rdx
+    je add_number
+
+    # If neither, jump to the end to decrement without adding
+    jmp end
+
+    add_number:
+      add %r8, %r9
+    
+    end:
+    
+    sub $1, %r8
+    cmp $0, %r8
+    jne complex_sum_loop
+
+
+  mov %r9, %rax
+end_result:  # For task 5, in gdb create a breakpoint here with "break end_result",
+             # run the program, and then use "info register rax" to print the result
+  call print_rax  # expected result: 2418
+
+
+
+
+
+
+
+
+
+  # Syscall calling sys_exit
+  mov $60, %rax            # rax: int syscall number
+  mov $0, %rdi             # rdi: int error code
+  syscall
+
+
+.type print_rax, @function
+print_rax:
+  /* Prints the contents of rax. */
+
+  push  %rbp
+  mov   %rsp, %rbp        # function prolog
+  
+  push  %rax              # saving the registers on the stack
+  push  %rcx
+  push  %rdx
+  push  %rdi
+  push  %rsi
+  push  %r9
+
+  mov   $6, %r9           # we always print the 6 characters "RAX: \n"
+  push  $10               # put '\n' on the stack
+  
+  loop1:
+  mov   $0, %rdx
+  mov   $10, %rcx
+  idiv  %rcx              # idiv alwas divides rdx:rax/operand
+                          # result is in rax, remainder in rdx
+  add   $48, %rdx         # add 48 to remainder to get corresponding ASCII
+  push  %rdx              # save our first ASCII sign on the stack
+  inc   %r9               # counter
+  cmp   $0, %rax   
+  jne   loop1             # loop until rax = 0
+  
+  mov   $0x20, %rax       # ' '
+  push  %rax
+  mov   $0x3a, %rax       # ':'
+  push  %rax
+  mov   $0x58, %rax       # 'X'
+  push  %rax
+  mov   $0x41, %rax       # 'A"
+  push  %rax
+  mov   $0x52, %rax       # 'R'
+  push  %rax
+
+  print_loop:
+  mov   $1, %rax          # Here we make a syscall. 1 in rax designates a sys_write
+  mov   $1, %rdi          # rdx: int file descriptor (1 is stdout)
+  mov   %rsp, %rsi        # rsi: char* buffer (rsp points to the current char to write)
+  mov   $1, %rdx          # rdx: size_t count (we write one char at a time)
+  syscall                 # instruction making the syscall
+  add   $8, %rsp          # set stack pointer to next char
+  dec   %r9
+  jne   print_loop
+
+  pop   %r9               # restoring the registers
+  pop   %rsi
+  pop   %rdi
+  pop   %rdx
+  pop   %rcx
+  pop   %rax
+
+  mov   %rbp, %rsp        # function Epilog
+  pop   %rbp
+  ret
