@@ -1,0 +1,64 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 map id xs = xs\
+\
+\ul Base case:\ulnone \
+\ul xs = []\
+\ulnone Left hand side: map id [] = []\
+Right hand side  []\
+\
+\ul Induction case\ulnone : Want to prove: map id (x:xs) = (x:xs)\
+Left hand side: id x : map id xs\
+\{id\}\
+= x:map id xs\
+\{ind hyp\}\
+=x:xs\
+\
+\ul Base Case\
+\ulnone Left hand side: map (f * g) [] = []\
+Right hand side: map f (map g [] = map f [] = []\
+\ul Induction case\ulnone : want to prove\
+map (f*g) (x:xs) = map f (map g (x:xs)\
+map (f*g) (x:xs) = (f*g)x : map (f*g) xs\
+= \
+\
+f(gx) : map f (map g xs)\
+\{use def 2 of map\}\
+= map f (g x : map g xs)\
+\
+\
+\
+\
+GOAL: rev(rev xs) = xs\
+reverse of reverse of xs = xs\
+\ul Base case: \ulnone \
+xs = []\
+LHS: ([]\uc0\u8800  ys )\u8800  zs = ys \u8800  zs\
+RHS: [] \uc0\u8800  (ys \u8800  zs) ) ys \'b1 zs\
+\
+\ul Induction case:\
+\ulnone ((x:xs) \uc0\u8800  ys) \u8800  zs) \
+\{\uc0\u8800 z\}\
+= (x:(xs\uc0\u8800 ys)) \u8800  zs \
+\{z\}\
+= x:((xs\uc0\u8800 ys) \u8800 zs)\
+\{ind hyp\}\
+= x:(xs->(ys \uc0\u8800  zs))\
+\{\uc0\u8800 z\}\
+= (x:xs) \uc0\u8800  (ys\u8800 zs)\
+\
+Base cas: xs = []\
+[] \uc0\u8800  [] =[]\
+Induction case:\
+(x:xs) \uc0\u8800  [] = x:(xs \u8800  [])\
+=x:xs \
+\
+\ul rev (xs \uc0\u8800  ys) = rev ys \u8800  rev xs\
+Base case: \ulnone \
+xs = []\
+LHS:  rev []}

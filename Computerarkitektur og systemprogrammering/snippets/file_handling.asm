@@ -4,8 +4,7 @@ file_stat:	.space 144	#Size of the fstat struct
 
 
 ###############################################################################
-# This function returns the filesize in rax. It expects the file handler to be
-# on the stack.
+# This function returns the filesize in rax. It expects the file handler to be on the stack.
 #
 # The function is not register save!
 ###############################################################################
